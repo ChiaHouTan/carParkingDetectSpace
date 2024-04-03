@@ -1,4 +1,3 @@
-
 import os
 from dotenv import load_dotenv
 from pubnub.pnconfiguration import PNConfiguration
@@ -12,6 +11,8 @@ def publish_to_pubnub(id_list, park_list, channel):
     pnconfig.user_id = 'parktesting'
     pubnub = PubNub(pnconfig)
 
+    
+
     data = {'id_list': id_list, 'boolean_values': park_list}
 
     def publish_callback(result, status):
@@ -19,7 +20,9 @@ def publish_to_pubnub(id_list, park_list, channel):
             print(f"Error publishing message: {status.error_data}")
             print(status.status_code)
         else:
-            print("Message published successfully")
+            # print("Message published successfully")
             print(result.timetoken)
 
+    
+        
     pubnub.publish().channel(channel).message(data).pn_async(publish_callback)

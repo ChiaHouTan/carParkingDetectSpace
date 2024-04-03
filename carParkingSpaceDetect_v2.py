@@ -3,11 +3,6 @@ import csv
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from pubnub.pnconfiguration import PNConfiguration
-from pubnub.pubnub import PubNub, SubscribeListener
-from pubnub.callbacks import SubscribeCallback
-from pubnub.enums import PNStatusCategory, PNOperationType
-import pubnub
 from pubnub_publisher import publish_to_pubnub
 
 x1_list, x2_list, y1_list, y2_list = [], [], [], []
