@@ -66,6 +66,10 @@ def process(frame, lane_image):
     idList = []
     parkList = []
     stateList = []
+    gpslat = ["53°58'56.11\"N"," 53°58'56.12\"N"," 53°58'56.18\"N"," 53°58'56.20\"N"]
+    gpslong = ["6°23'33.04\"W","  6°23'32.90\"W","  6°23'32.71\"W","  6°23'32.61\"W"]
+    latList = []
+    longList = []
 
     gray = cv2.cvtColor(lane_image, cv2.COLOR_RGB2GRAY)
     blur = cv2.GaussianBlur(gray,(3,3), 1)
@@ -95,6 +99,8 @@ def process(frame, lane_image):
             idList.append('B'+str(i+221))
             parkList.append(True)
             stateList.append("free")
+            latList.append(gpslat[i])
+            longList.append(gpslong[i])
         
         else:
             cv2.rectangle(frame, (round(x1_list[i]), round(y1_list[i])), (round(x2_list[i]), round(y2_list[i])), (0,0,255), thickness = 2)
@@ -105,9 +111,12 @@ def process(frame, lane_image):
             idList.append('B'+str(i+221))
             parkList.append(False)
             stateList.append("taken")
+            latList.append(gpslat[i])
+            longList.append(gpslong[i])
 
     cv2.imshow("i", frame)
     cv2.waitKey(1) & 0xFF == ord('q')
+
 
     # for i in range(0, len(idList)):
     #     print(idList[i] + ' , ' + str(parkList[i]))
@@ -119,7 +128,7 @@ def process(frame, lane_image):
 
     if time.time() - last_publish_time_pubnub >= 2:  # Check if 5 seconds have elapsed
         channel_name = os.getenv('PN_CHANNEL')
-        publish_to_pubnub(idList, parkList, channel_name)
+        publish_to_pubnub(idList, parkList, latList, longList, channel_name)
         last_publish_time_pubnub = time.time()
 
 

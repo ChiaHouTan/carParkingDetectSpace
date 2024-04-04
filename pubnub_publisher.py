@@ -4,7 +4,7 @@ from pubnub.pnconfiguration import PNConfiguration
 from pubnub.pubnub import PubNub
 from pubnub.enums import PNOperationType
 
-def publish_to_pubnub(id_list, park_list, channel):
+def publish_to_pubnub(id_list, park_list, latList, longList, channel):
     pnconfig = PNConfiguration()
     pnconfig.subscribe_key = os.getenv('PN_SUBSCRIBEKEY')
     pnconfig.publish_key = os.getenv('PN_PUBLISHKEY')
@@ -13,7 +13,7 @@ def publish_to_pubnub(id_list, park_list, channel):
 
     
 
-    data = {'id_list': id_list, 'boolean_values': park_list}
+    data = {'id_list': id_list, 'boolean_values': park_list, 'latList': latList, 'longList': longList}
 
     def publish_callback(result, status):
         if status.is_error():
